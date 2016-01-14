@@ -6,13 +6,21 @@
 
 int compare (const void *a, const void *b) //funkcja porównująca
 {
-    letter a1 = *(struct letter*)a;
-    letter a2 = *(struct letter*)b;
-    if (a1.amount == a2.amount)
+    letter *a1 = *(struct letter**)a;
+    letter *a2 = *(struct letter**)b;
+    if (a1->amount == a2->amount)
         return 0;
-    if (a1.amount < a2.amount)
+    if (a1->amount < a2->amount)
         return -1;
     return 1;
+}
+
+letter *create_letter (void)
+{
+    letter *new_letter = malloc(sizeof(letter));
+    new_letter->amount = 0;
+    new_letter->sign = '\0';
+    return new_letter;
 }
 
 huff_list* add_elem (huff_list *list, letter *elem) //dodawanie nowo powstałej struktury letter w odpowiednie miejsce w liście
@@ -42,62 +50,61 @@ huff_list* add_elem (huff_list *list, letter *elem) //dodawanie nowo powstałej 
     
 }
 
-letter *read_f (const char *input_name) //wczytywanie tekstu z pliku
+huff_list *read_f (const char *input_name) //wczytywanie tekstu z pliku
 {
-    letter *array = malloc(LETAMT * sizeof(letter));
-   
-   /*
-    letter *array [LETAMT];
+    
+    letter **array = malloc(LETAMT * sizeof(letter *));
     for (int i = 0; i < LETAMT; i++)
-        array[i] = malloc(sizeof(letter)); */
+        array[i] = create_letter();
+    
     FILE *input;
     input = fopen(input_name, "r");
     char let = '\0';
-    
-    
     int sum = 0;
     while (!feof(input))
     {
         let = fgetc(input);
-        if (array[let].amount == 0)
-            sum++;
-        array[let].amount++;
-        array[let].sign = let;
-        
+        if ((int) let >= 0)
+        {
+            if (array[let]->amount == 0)
+                sum++;
+            array[let]->amount++;
+            array[let]->sign = let;
+        }
     }
-    sum--;
-    qsort(array, LETAMT, sizeof(letter), compare); //sortowanie tablicy liter i ich wystąpień
+    qsort(array, LETAMT, sizeof(*array), compare); //sortowanie tablicy liter i ich wystąpień
     
     huff_list *list = malloc(sizeof(huff_list));
     huff_list *start = list;
     
-    letter **final_arr = malloc(sum * sizeof(letter*));
-    for (int i = 0; i < sum; i++)
-        final_arr[i] = malloc(sizeof(letter));
-    
     for (int i = LETAMT - sum; i < LETAMT; i++) //tworzenie tablicy tylko z literami o niezerowych wystąpieniach
     {
-        final_arr[i - LETAMT + sum]->amount = array[i].amount;
-        final_arr[i - LETAMT + sum]->sign = array[i].sign;
-        list->list_letter = final_arr[i - LETAMT + sum];
-        list->next = malloc(sizeof(huff_list));
+
+        list->list_letter = array[i];
+        if (i < LETAMT - 1)
+            list->next = malloc(sizeof(huff_list));
         list = list->next;
         
     }
     list = start;
-    free(array);
+    /* -----------------------------------------------test---------------------------------------------------
+    for (int i = 0; i < LETAMT - sum; i++)
+        free(array[i]);
     
     letter *dod = malloc(sizeof(letter));
     dod->amount = 1;
     start = add_elem(list, dod);
+    letter *dod2 = malloc(sizeof(letter));
+    dod2->amount = 8;
+    start = add_elem(start, dod2);
 
     while (start->next != NULL)
     {
         printf("%d ", start->list_letter->amount);
         start = start->next;
     }
-   
-    
+    printf("%d ", start->list_letter->amount);
+    */
     fclose(input);
-    return *final_arr;
+    return start;
 }
