@@ -6,15 +6,21 @@ typedef struct letter{
 }letter;
 
 typedef struct huff_tree{
-    letter *val;
+    int val;
+    struct huff_list *elem;
     struct huff_tree *left;
     struct huff_tree *right;
-}tree;
+}huff_tree;
 
 typedef struct huff_list{
+    int val;
     letter *list_letter;
+    struct huff_tree *node;
     struct huff_list *next;
 }huff_list;
 
+letter *create_letter (void);
+huff_tree *create_huff_tree (void);
+huff_list *create_huff_list (void);
 
 #endif
