@@ -54,22 +54,6 @@ huff_list *read_f (const char *input_name) //wczytywanie tekstu z pliku
         
     }
     list = start;
-   /*  -----------------------------------------------test---------------------------------------------------
-    for (int i = 0; i < LETAMT - sum; i++)
-        free(array[i]);
-    
-    huff_tree *dod = create_huff_tree();
-    dod->val = 10;
-    start = add_elem(list, dod);
-  
-
-    while (start->next != NULL)
-    {
-        printf("%d ", start->val);
-        start = start->next;
-    }
-    printf("%d ", start->val);
-    */
     fclose(input);
     return list;
 }

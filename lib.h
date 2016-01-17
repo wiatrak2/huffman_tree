@@ -1,5 +1,7 @@
 #ifndef lib_h
 #define lib_h
+#define LETAMT 128
+
 typedef struct letter{
     char sign;
     int amount;
