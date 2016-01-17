@@ -21,8 +21,15 @@ typedef struct huff_list{
     struct huff_list *next;
 }huff_list;
 
+typedef struct uncode_tree{
+    char sign;
+    struct uncode_tree *left;
+    struct uncode_tree *right;
+}uncode_tree;
+
 letter *create_letter (void);
 huff_tree *create_huff_tree (void);
 huff_list *create_huff_list (void);
+uncode_tree *create_uncode_tree (void);
 
 #endif

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "get_code.h"
 #include "make_code.h"
+#include "get_uncode.h"
 int main(int argc, const char * argv[]) {
 
     char code_arr[LETAMT][LETAMT];
@@ -12,6 +13,6 @@ int main(int argc, const char * argv[]) {
     huff_tree *tree = make_tree(list);
     code_tree(tree, 0, code_arr, code);
     text2code("test.txt", "wy.txt", code_arr);
-
+    get_tree("wy.txt");
     return 0;
 }

@@ -29,3 +29,13 @@ huff_list *create_huff_list (void)
     new_list->node = NULL;
     return new_list;
 }
+
+uncode_tree *create_uncode_tree (void)
+{
+    uncode_tree *new_tree = malloc(sizeof(uncode_tree));
+    new_tree->sign = '\0';
+    new_tree->left = NULL;
+    new_tree->right = NULL;
+    return new_tree;
+}
+
