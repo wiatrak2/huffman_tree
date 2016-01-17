@@ -11,12 +11,7 @@ int main(int argc, const char * argv[]) {
     huff_list *list = read_f("test.txt");
     huff_tree *tree = make_tree(list);
     code_tree(tree, 0, code_arr, code);
-    printf("%s %s %s ", code_arr[(int) 'a'], code_arr[(int) 'b'], code_arr[(int) ' ']);
-    
-    char tab[8];
-    for (int i = 0; i < 8; i++)
-        tab[i] = '1';
-    int a = bin2dec(tab);
-    printf("%d ", a);
+    text2code("test.txt", "wy.txt", code_arr);
+
     return 0;
 }

@@ -1,7 +1,7 @@
 #include "make_code.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 int bin2dec (char code[])
 {
     int sum = 0;
@@ -85,17 +85,7 @@ huff_tree *make_tree (huff_list *list)
     list = start;
     while (list->next != NULL)
         list = list->next;
-    
     huff_tree *root = list->node;
-//--------------------------------------------------------test------------------------------------------------------------
-    /*
-    while (start->next != NULL)
-    {
-        printf("%d ", start->val);
-        start = start->next;
-    }
-    printf("%d ", start->val);
-    */
     
     return root;
 }
@@ -125,5 +115,98 @@ void code_tree (huff_tree *tree, int num, char code_arr [LETAMT][LETAMT], char c
             code_tree(tree->right, num + 1, code_arr, code);
         }
     }
+}
 
+void codetext (char code_arr [LETAMT][LETAMT], char code[], char sign)
+{
+    int index = 0;
+    while (code[index] != '\0')
+        index++;
+    unsigned long int len = strlen(code_arr[(int) sign]);
+    for (int i = index; i < index + len; i++)
+        code[i] = code_arr[(int) sign][i - index];
+    code[index + len] = '\0';
+}
+
+void move_code (char code[])
+{
+    unsigned long int len = strlen(code);
+    if (len == 8)
+        for (int i = 0; i < len; i++)
+            code[i] = '\0';
+    else
+    {
+        for (int i = 8; i <= len; i++)
+           code[i - 8] = code[i];
+    }
+}
+
+int final_num (char code[])
+{
+    int sum = 0;
+    int pow = 1;
+    unsigned long int len = strlen(code);
+    for (unsigned long int i = 1; i <= len; i++)
+    {
+        sum = sum + pow * ((int)(code[len - i] - '0'));
+        pow *= 2;
+    }
+    return sum;
+}
+
+void text2code (const char *input_name,const char *output_name, char code_arr[LETAMT][LETAMT])
+{
+    char code [LETAMT];
+    for (int i  = 0; i < LETAMT; i++)
+        code[i] = '\0';
+    
+    FILE *input;
+    input = fopen(input_name, "r");
+    FILE *output;
+    output = fopen(output_name, "w");
+    
+    fprintf(output, "CODE:\n");
+    char sign;
+    while (!feof(input))
+    {
+        sign = fgetc(input);
+        if ((int) sign >= 0)
+            codetext(code_arr, code, sign);
+        if (strlen(code) >= 8)
+        {
+            int coded = bin2dec(code);
+            fprintf(output , "%d ", coded);
+            move_code(code);
+        }
+    }
+    
+    unsigned long int while_eof = strlen(code);
+    if (while_eof > 0)
+    {
+        int coded = final_num(code);
+        fprintf(output, "%d ", coded);
+    }
+    
+    fprintf(output, "\nwhile_eof = %lu\n", while_eof);
+    fprintf(output, "TREE:\n");
+    
+    for (int i = 0; i < LETAMT; i++)
+        if (code_arr[i][0] != '\0')
+        {
+            if ((char) i == ' ')
+            {
+                fprintf(output, "' ' - %s\n", code_arr[i]);
+                continue;
+            }
+            if ((char) i == '\n')
+            {
+                fprintf(output, "'\n' - %s\n", code_arr[i]);
+                continue;
+            }
+            fprintf(output, "%c - %s\n", (char) i, code_arr[i]);
+        }
+    
+    fclose(input);
+    fclose(output);
+  
 }
