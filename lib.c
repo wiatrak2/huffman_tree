@@ -39,3 +39,10 @@ uncode_tree *create_uncode_tree (void)
     return new_tree;
 }
 
+list *create_list(void)
+{
+    list *new_list = malloc(sizeof(list));
+    new_list->next = NULL;
+    return new_list;
+}
+

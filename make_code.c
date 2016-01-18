@@ -14,7 +14,7 @@ int bin2dec (char code[])
     return sum;
 }
 
-huff_list *add_elem (huff_list *list, huff_tree *elem) //dodawanie nowo powstałej struktury huff_tree w odpowiednie miejsce
+huff_list *add_elem (huff_list *list, huff_tree *elem)
 {
     huff_list *new_elem = create_huff_list();
     if (list->val >= elem->val)
@@ -200,7 +200,7 @@ void text2code (const char *input_name,const char *output_name, char code_arr[LE
             }
             if ((char) i == '\n')
             {
-                fprintf(output, "'\n' - %s\n", code_arr[i]);
+                fprintf(output, "'\\n' - %s\n", code_arr[i]);
                 continue;
             }
             fprintf(output, "%c - %s\n", (char) i, code_arr[i]);

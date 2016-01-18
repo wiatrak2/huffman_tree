@@ -27,9 +27,15 @@ typedef struct uncode_tree{
     struct uncode_tree *right;
 }uncode_tree;
 
+typedef struct list{
+    int val;
+    struct list *next;
+}list;
+//---------------------------------------------------funkcje tworzące struktury----------------------------------------------------------//
 letter *create_letter (void);
 huff_tree *create_huff_tree (void);
 huff_list *create_huff_list (void);
 uncode_tree *create_uncode_tree (void);
+list *create_list(void);
 
 #endif

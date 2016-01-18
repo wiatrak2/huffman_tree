@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-int compare (const void *a, const void *b) //funkcja porównująca
+int compare (const void *a, const void *b)
 {
     letter *a1 = *(struct letter**)a;
     letter *a2 = *(struct letter**)b;
@@ -16,7 +16,7 @@ int compare (const void *a, const void *b) //funkcja porównująca
     return 1;
 }
 
-huff_list *read_f (const char *input_name) //wczytywanie tekstu z pliku
+huff_list *read_f (const char *input_name)
 {
     
     letter **array = malloc(LETAMT * sizeof(letter *));
@@ -38,12 +38,12 @@ huff_list *read_f (const char *input_name) //wczytywanie tekstu z pliku
             array[let]->sign = let;
         }
     }
-    qsort(array, LETAMT, sizeof(letter *), compare); //sortowanie tablicy liter i ich wystąpień
+    qsort(array, LETAMT, sizeof(letter *), compare);
     
     huff_list *list = create_huff_list();
     huff_list *start = list;
     
-    for (int i = LETAMT - sum; i < LETAMT; i++) //tworzenie listy tylko z literami o niezerowych wystąpieniach
+    for (int i = LETAMT - sum; i < LETAMT; i++)
     {
 
         list->list_letter = array[i];
