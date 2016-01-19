@@ -27,7 +27,7 @@ huff_list *add_elem (huff_list *list, huff_tree *elem)
     huff_list *start = list;
     while (list->val < elem->val)
     {
-        if (list->next->next == NULL)
+        if (list->next->next == NULL && list->next->val <= elem->val)
         {
             list->next->next = create_huff_list();
             list->next->next->node = elem;
@@ -70,12 +70,14 @@ huff_tree *make_tree (huff_list *list)
         if (node->left->elem->node != NULL)
             node->left = node->left->elem->node;
         
+
         list = list->next;
         node->right->elem = list;
         
         if (node->right->elem->node != NULL)
             node->right = node->right->elem->node;
   
+
         list = list->next;
         node->val = add_val(node);
         huff_list *add = start;
