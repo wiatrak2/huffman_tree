@@ -88,11 +88,15 @@ list *numbers (const char *input_name)
         sign = getc(input);
     }
     num_list = start;
-    while (num_list->next->val != 0)
+    while (num_list->next->next != NULL || num_list->next->val != 0)
         num_list = num_list->next;
     num_list->next = NULL;
     num_list = start;
+    while (num_list->next->next != NULL)
+        num_list = num_list->next;
     
+    num_list->next = NULL;
+    num_list = start;
     fclose(input);
     return num_list;
 }
