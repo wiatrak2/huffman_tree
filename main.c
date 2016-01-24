@@ -8,7 +8,7 @@
 #include "make_uncode.h"
 int main(int argc, const char * argv[]) {
 
-    if (strcmp (argv[1], "k") == 0)
+    if (strcmp (argv[1], "c") == 0)
     {
         char code_arr[LETAMT][LETAMT];
         for (int i = 0; i < LETAMT; i++)
@@ -26,6 +26,6 @@ int main(int argc, const char * argv[]) {
         int while_eof = get_while_eof(argv[2]);
         get_sign(num_list, un_tree, while_eof, argv[3]);
     }
-
+ 
     return 0;
 }

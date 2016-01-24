@@ -34,19 +34,18 @@ uncode_tree *get_tree (const char *input_name)
     input = fopen(input_name, "r");
     
     uncode_tree *tree = create_uncode_tree();
-    
-    char word [LETAMT];
-    while (strcmp(word, "TREE:") != 0)
-        fscanf(input, "%s", word);
-    
-    char sign = fgetc(input);
+
+    int lines;
+    fscanf(input ,"%d\n", &lines);
+    fscanf(input, "%d\n", &lines);
+    char sign;
     
     uncode_tree *node = tree;
     
     char code_sign[LETAMT];
     char get_sign [5];
     
-    while (!feof(input))
+    for (int i = 0; i < lines; i++)
     {
         fscanf(input, "%s", get_sign);
         if (strcmp(get_sign, "'") == 0 && strcmp(get_sign, "'\n'") != 0)
@@ -63,8 +62,6 @@ uncode_tree *get_tree (const char *input_name)
         fscanf(input, "%s\n", code_sign);
         
         node = create_path(code_sign, node, sign);
-        if (feof(input))
-            break;
     }
     
     fclose(input);
@@ -77,15 +74,19 @@ list *numbers (const char *input_name)
     list *start = num_list;
     FILE *input;
     input = fopen(input_name, "r");
-    char code_text [10];
-    fscanf(input, "%s\n", code_text);
-    char sign = '\0';
-    while (sign != '\n' && sign != 'w')
+    char code_text [LETAMT];
+    int lines;
+    fscanf(input, "%d\n", &lines);
+    fscanf(input, "%d\n", &lines);
+    for (int i = 0; i < lines; i++)
+        fgets(code_text, LETAMT, input);
+    while (!feof(input))
     {
-        fscanf(input, "%d", &num_list->val);
+        unsigned char sign = getc(input);
+        int num = sign;
+        num_list->val = num;
         num_list->next = create_list();
         num_list = num_list->next;
-        sign = getc(input);
     }
     num_list = start;
     while (num_list->next->next != NULL || num_list->next->val != 0)
@@ -106,9 +107,6 @@ int get_while_eof (const char *input_name)
     int while_eof;
     FILE *input;
     input = fopen(input_name, "r");
-    char sign = '\0';
-    while (sign != '=')
-        sign = fgetc(input);
     fscanf(input, "%d", &while_eof);
     
     fclose(input);

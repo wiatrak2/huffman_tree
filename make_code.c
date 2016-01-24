@@ -156,7 +156,17 @@ int final_num (char code[])
     return sum;
 }
 
-void text2code (const char *input_name,const char *output_name, char code_arr[LETAMT][LETAMT])
+int count_lines (char code_arr[LETAMT][LETAMT])
+{
+    int counter = 0;
+    for (int i = 0; i < LETAMT; i++)
+        if (code_arr[i][0] != '\0')
+            counter++;
+    return counter;
+}
+
+
+void text2code (const char *input_name, const char *output_name, char code_arr[LETAMT][LETAMT])
 {
     char code [LETAMT];
     for (int i  = 0; i < LETAMT; i++)
@@ -167,31 +177,8 @@ void text2code (const char *input_name,const char *output_name, char code_arr[LE
     FILE *output;
     output = fopen(output_name, "w");
     
-    fprintf(output, "CODE:\n");
-    char sign;
-    while (!feof(input))
-    {
-        sign = fgetc(input);
-        if ((int) sign >= 0)
-            codetext(code_arr, code, sign);
-        if (strlen(code) >= 8)
-        {
-            int coded = bin2dec(code);
-            fprintf(output , "%d ", coded);
-            move_code(code);
-        }
-    }
-    
-    unsigned long int while_eof = strlen(code);
-    if (while_eof > 0)
-    {
-        int coded = final_num(code);
-        fprintf(output, "%d ", coded);
-    }
-    
-    fprintf(output, "\nwhile_eof = %lu\n", while_eof);
-    fprintf(output, "TREE:\n");
-    
+    int lines = count_lines(code_arr);
+    fprintf(output, "%d\n\n ", lines);
     for (int i = 0; i < LETAMT; i++)
         if (code_arr[i][0] != '\0')
         {
@@ -207,8 +194,35 @@ void text2code (const char *input_name,const char *output_name, char code_arr[LE
             }
             fprintf(output, "%c - %s\n", (char) i, code_arr[i]);
         }
+
+    char sign;
+    while (!feof(input))
+    {
+        sign = fgetc(input);
+        if ((int) sign >= 0)
+            codetext(code_arr, code, sign);
+        if (strlen(code) >= 8)
+        {
+            int coded = bin2dec(code);
+            unsigned char out_sign = coded;
+            fprintf(output , "%c", out_sign);
+            move_code(code);
+        }
+    }
     
+    unsigned long int while_eof = strlen(code);
+    if (while_eof > 0)
+    {
+        int coded = final_num(code);
+        unsigned char out_sign = coded;
+        fprintf(output, "%c", out_sign);
+    }
+
+    
+    fseek(output, 0, 0);
+    fprintf(output, "%lu\n%d\n", while_eof, lines);
+
     fclose(input);
     fclose(output);
-  
+
 }
