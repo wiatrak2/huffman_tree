@@ -2,6 +2,7 @@
 Wojciech Pratkowiecki II UWr - coding text files with Huffman algorithm
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ## how to code/uncode file
 To code/uncode the txt file you should run your program and pass data to it in terminal. The program must recieve 3 crucial informations:
@@ -27,3 +28,5 @@ To code/uncode the txt file you should run your program and pass data to it in t
 After update the size of coded file has been decreased. 
 ![alt text](https://github.com/wiatrak2/huffman_tree/blob/master/screen/screen2.png "file_size")
 >>>>>>> d6a6789c83812a5215058c5c73eff494c38ae8b5
+=======
+>>>>>>> parent of 1a23f8e... Revert "Update README.md"
