@@ -1,9 +1,5 @@
 # huffman_tree
 Wojciech Pratkowiecki II UWr - coding text files with Huffman algorithm
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 ## how to code/uncode file
 To code/uncode the txt file you should run your program and pass data to it in terminal. The program must recieve 3 crucial informations:
 1. letter
